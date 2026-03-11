@@ -2,7 +2,7 @@ services:
   paperclip:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.simple
     ports:
       - "3100:3100"
     environment:
