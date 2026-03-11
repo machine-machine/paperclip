@@ -1,0 +1,21 @@
+services:
+  paperclip:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "3100"
+      PAPERCLIP_HOME: "/paperclip"
+      NODE_ENV: "production"
+      PAPERCLIP_DEPLOYMENT_MODE: "authenticated"
+      PAPERCLIP_DEPLOYMENT_EXPOSURE: "private"
+      PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://paperclip.machinemachine.ai}"
+      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:-mm-paperclip-secret-change-me-32ch}"
+    volumes:
+      - paperclip-data:/paperclip
+
+volumes:
+  paperclip-data:
