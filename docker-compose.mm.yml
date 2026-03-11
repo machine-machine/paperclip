@@ -17,6 +17,13 @@ services:
       DATABASE_URL: "${DATABASE_URL}"
     volumes:
       - paperclip-data:/paperclip
+    networks:
+      - default
+      - coolify
 
 volumes:
   paperclip-data:
+
+networks:
+  coolify:
+    external: true
