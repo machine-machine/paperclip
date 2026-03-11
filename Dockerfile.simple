@@ -1,9 +1,13 @@
 FROM node:20-alpine
 WORKDIR /app
+RUN apk add --no-cache openssl
 RUN npm install -g paperclipai@latest
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 EXPOSE 3100
 ENV HOST=0.0.0.0
 ENV PORT=3100
 ENV PAPERCLIP_HOME=/paperclip
 VOLUME ["/paperclip"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["paperclipai", "run"]

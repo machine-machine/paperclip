@@ -14,6 +14,7 @@ services:
       PAPERCLIP_DEPLOYMENT_EXPOSURE: "private"
       PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://paperclip.machinemachine.ai}"
       BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:-mm-paperclip-secret-change-me-32ch}"
+      DATABASE_URL: "${DATABASE_URL}"
     volumes:
       - paperclip-data:/paperclip
 
