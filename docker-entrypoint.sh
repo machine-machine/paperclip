@@ -7,17 +7,17 @@ CONFIG_FILE="${CONFIG_DIR}/config.json"
 # Create config directory
 mkdir -p "$CONFIG_DIR"
 
-# If DATABASE_URL is set and no config exists, write one that uses external postgres
-if [ -n "$DATABASE_URL" ] && [ ! -f "$CONFIG_FILE" ]; then
-  echo "Creating paperclip config for external postgres..."
+# Always write config from env vars (allows Coolify env vars to take effect on restart)
+if [ -n "$DATABASE_URL" ]; then
+  echo "Writing paperclip config from env vars..."
   cat > "$CONFIG_FILE" << EOF
 {
-  "\$meta": { "version": 1, "updatedAt": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)", "source": "docker-entrypoint" },
+  "\$meta": { "version": 1, "updatedAt": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)", "source": "configure" },
   "database": {
     "mode": "postgres",
     "connectionString": "$DATABASE_URL"
   },
-  "logging": { "mode": "stdout" },
+  "logging": { "mode": "file" },
   "server": {
     "deploymentMode": "${PAPERCLIP_DEPLOYMENT_MODE:-authenticated}",
     "exposure": "${PAPERCLIP_DEPLOYMENT_EXPOSURE:-private}",
@@ -27,7 +27,7 @@ if [ -n "$DATABASE_URL" ] && [ ! -f "$CONFIG_FILE" ]; then
     "serveUi": true
   },
   "auth": {
-    "baseUrlMode": "env",
+    "baseUrlMode": "auto",
     "disableSignUp": false
   },
   "storage": {
